@@ -9,29 +9,6 @@ java "-Duser.home=${HOME}" \
      -classpath /bin/okta-aws-cli.jar com.okta.tools.awscli \
      --profile "${OKTA_AWS_PROFILE:-default}" sts get-caller-identity
 
-# Assume role if specified
-if [ -n "${AWS_ASSUME_ROLE_ARN:-}" ]; then
-  echo -e "\nAssuming role as: ${AWS_ASSUME_ROLE_ARN}"
-  assumed_role_details=$(aws sts assume-role \
-    --role-arn "${AWS_ASSUME_ROLE_ARN}" \
-    --role-session-name "${AWS_ASSUME_SESSION_NAME:-OktaAssumeRole}" \
-    --query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" \
-    --output text)
-
-  # Split results
-  aws_access_key_id=$(echo "${assumed_role_details}" | cut -f1)
-  aws_secret_access_key=$(echo "${assumed_role_details}" | cut -f2)
-  aws_session_token=$(echo "${assumed_role_details}" | cut -f3)
-
-  # Set aws credentials
-  aws configure set aws_access_key_id "${aws_access_key_id}"
-  aws configure set aws_secret_access_key "${aws_secret_access_key}"
-  aws configure set aws_session_token "${aws_session_token}"
-
-  # Print out secondary role information
-  aws sts get-caller-identity
-fi
-
 echo "" >> /work/.env
 echo AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) >> /work/.env
 echo AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key) >> /work/.env
