@@ -9,10 +9,14 @@ RUN pip3 install --upgrade pip
 RUN pip3 install awscli
 
 # move okta jar into bin
-RUN curl -sSL ${OKTA_RELEASE} > /usr/bin/okta-aws-cli.jar
+RUN curl -sSL ${OKTA_RELEASE} > /bin/okta-aws-cli.jar
 
-# create a auto assume wrapper
-COPY awscli /usr/bin/awscli
+# create /work (main folder)
+RUN mkdir /work/
 
-# set as default command
-CMD ["awscli"]
+# copy the authentication script from docker entrypoint
+COPY src/docker-entrypoint.sh /bin/docker-entrypoint.sh
+RUN chmod +x /bin/docker-entrypoint.sh
+
+
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]

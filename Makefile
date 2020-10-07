@@ -1,7 +1,6 @@
-.SILENT:
-OKTA_VERSION = 1.0.10
-TAG = $(OKTA_VERSION)-1
-IMAGE_NAME ?= contino/okta-aws:$(TAG)
+OKTA_VERSION=1.0.10
+TAG=$(OKTA_VERSION)-dnx1.0.0
+IMAGE_NAME?=dnxsolutions/aws-okta-auth:$(TAG)
 
 .PHONY: build
 build:

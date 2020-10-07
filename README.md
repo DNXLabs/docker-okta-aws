@@ -50,12 +50,6 @@ Here are some quick environment variables to get you started:
 - `OKTA_USERNAME` - Your personal Okta username, if not set will be prompted to enter in manually
 - `OKTA_AWS_PROFILE` - Custom name for the okta profile to use (default: 'default')
 
-If requiring an assume role after your primary Okta login, these variables
-can be used to automatically assume into the role desired:
-
-- `AWS_ASSUME_ROLE_ARN` - The full ARN of the account and role you wish to assume into after Okta authentication
-- `AWS_ASSUME_SESSION_NAME` - Custom session name to be used in assuming (default: 'OktaAssumeRole')
-
 ### Configuration File
 If wanting to store all configuration for Okta in a static file instead, you
 have the functionality to bind mount a configuration file directly into the
