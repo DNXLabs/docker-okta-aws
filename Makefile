@@ -1,5 +1,5 @@
 OKTA_VERSION=1.0.10
-TAG=$(OKTA_VERSION)-dnx1.0.0
+TAG?=$(OKTA_VERSION)-dnx1.0.0
 IMAGE_NAME?=dnxsolutions/aws-okta-auth:$(TAG)
 
 .PHONY: build
