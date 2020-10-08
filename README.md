@@ -1,44 +1,20 @@
-# Docker Okta
-Containerised Okta CLI with Python AWS sdks installed.
-
-## Usage
-The below 2 examples assume that you will be utilising a configuration file.
-
-### Docker
-Run as a command:
-
-```bash
-docker run --rm -v ~/.okta/config.properties:/root/.okta/config.properties -v ~/.aws:/root/.aws contino/okta-aws
-```
+# Okta SSO with AWS STS
 
 ### Docker-Compose
 Using docker-compose:
 
 ```yaml
-okta:
-  image: contino/okta-aws
-  volumes:
-    - ~/.okta/config.properties:/root/.okta/config.properties
-    - ~/.aws:/root/.aws
+  okta-auth:
+    image: dnxsolutions/aws-okta-auth:0.0.1
+    volumes:
+      - ./.env.auth:/work/.env
+    environment:
+      - OKTA_ORG
+      - OKTA_AWS_APP_URL
+      - OKTA_AWS_DEFAULT_REGION
 ```
 
 And run `docker-compose run okta` to be prompted with username and password.
-
-### Bash
-Can also set as a bash function and placed in your `~/.bashrc` or equivalent
-for quick access, with a configuration file:
-
-```bash
-function okta() {
-  docker run --rm -it -v ~/.okta/config.properties:/root/.okta/config.properties -v ~/.aws:/root/.aws contino/okta-aws;
-}
-```
-
-Then run `okta` on your terminal to be prompted.
-
-## Configuration
-Please see [Okta](https://github.com/oktadeveloper/okta-aws-cli-assume-role)
-for further details.
 
 ### Environment Variables
 Here are some quick environment variables to get you started:
@@ -50,25 +26,9 @@ Here are some quick environment variables to get you started:
 - `OKTA_USERNAME` - Your personal Okta username, if not set will be prompted to enter in manually
 - `OKTA_AWS_PROFILE` - Custom name for the okta profile to use (default: 'default')
 
-### Configuration File
-If wanting to store all configuration for Okta in a static file instead, you
-have the functionality to bind mount a configuration file directly into the
-container. See below example of what it can look like.
-
-Save below contents in a file located `~/.okta/config.properties`:
-
-```
-OKTA_ORG=my-org.okta.com
-OKTA_AWS_APP_URL=https://my-org.okta.com/home/amazon_aws/123456789
-```
-
 ## Build
 Update the `OKTA_VERSION` in both `Makefile` and `Dockerfile`. Then run:
 
     make build
 
 Docker Hub will automatically trigger a new build.
-
-## Related Projects
-- [hashicorp/terraform](https://hub.docker.com/r/hashicorp/terraform/)
-- [docker-aws-cli](https://github.com/contino/docker-aws-cli)
