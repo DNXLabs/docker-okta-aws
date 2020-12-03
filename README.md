@@ -1,5 +1,8 @@
 # Okta SSO with AWS STS
 
+![Security](https://github.com/DNXLabs/docker-okta-aws/workflows/Security/badge.svg)
+![Lint](https://github.com/DNXLabs/docker-okta-aws/workflows/Lint/badge.svg)
+
 ### Docker-Compose
 Using docker-compose:
 
