@@ -5,8 +5,8 @@ ENV OKTA_RELEASE=https://github.com/oktadeveloper/okta-aws-cli-assume-role/relea
 
 # install aws cli
 RUN apk add --update --no-cache python3 git curl make bash
-RUN pip3 install --upgrade pip
-RUN pip3 install awscli
+RUN pip3 install --no-cache-dir --upgrade pip
+RUN pip3 install --no-cache-dir awscli
 
 # move okta jar into bin
 RUN curl -sSL ${OKTA_RELEASE} > /bin/okta-aws-cli.jar

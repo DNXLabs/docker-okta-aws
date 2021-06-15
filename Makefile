@@ -1,23 +1,14 @@
-OKTA_VERSION=1.0.10
-TAG?=$(OKTA_VERSION)-dnx1.0.0
-IMAGE_NAME?=dnxsolutions/aws-okta-auth:$(TAG)
+IMAGE_NAME?=dnxsolutions/aws-okta-auth:latest
 
-.PHONY: build
 build:
 	docker build -t $(IMAGE_NAME) .
 
-.PHONY: test
 test:
 	docker run --rm -it --entrypoint="aws" $(IMAGE_NAME) --version
 	docker run --rm -it --entrypoint="make" $(IMAGE_NAME) --version
 
-.PHONY: shell
 shell:
 	docker run --rm -it --entrypoint="bash" $(IMAGE_NAME)
 
-.PHONY: gitTag
-gitTag:
-	-git tag -d $(TAG)
-	-git push origin :refs/tags/$(TAG)
-	git tag $(TAG)
-	git push origin $(TAG)
+lint:
+	docker run --rm -i -v $(PWD)/hadolint.yaml:/.config/hadolint.yaml hadolint/hadolint < Dockerfile
